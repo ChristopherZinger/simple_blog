@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}Welcome User{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'accounts/user_profile.css' %}">
+{% endblock %}
+{% block body %}
+
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+
+
+  {% if not user.is_authenticated %}
+    <h2>User is NOT logged in</h2>
+    <a href="{% url 'accounts:login' %}"> Log In </a>
+  {% else %}
+
+  <div class="info-container">
+    <h3>Hello {{user.user_info.first_name}}</h3>
+
+    <div class="profile-section">
+      {% if user.is_staff %}
+      <h4>Admin Panel</h4>
+          <ul>
+            <li>
+              <a style="color:red;"  href="{% url 'post:post_create' %}">
+                <strong style="color:red;">Create Post</strong>
+              </a>
+            </li>
+          </ul>
+
+
+      <br>
+      {% endif %}
+    </div>
+
+    <div class="profile-section">
+      <h4>Profile Info</h4>
+      <ul>
+        <li>First Name: {{user.user_info.first_name }}</li>
+        <li>Last Name: {{user.user_info.last_name }}</li>
+        <a class="link-left" href="{% url 'accounts:user_info_update' user_slug=user.slug %}">Update Profile Information</a></li>
+      </ul>
+      <br>
+      <ul>
+        <li>Email: {{ user.email }}</li>
+        <a class="link-left" href="{% url 'accounts:user_update' user_slug=user.slug %}">Update Email or Password</a>
+      </ul>
+      <br>
+    </div>
+
+    <div class="profile-section">
+      <h4>Your Comments</h4>
+      <ul>
+        {% for comment in user.posts.all %}
+        <li>Article: <strong>{{ comment.post.title }}</strong></li>
+        <ul>
+          <li>{{ comment.text }}</li>
+        </ul>
+        <br>
+        {% endfor %}
+      </ul>
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+  {% endif %}
+{% endblock %}

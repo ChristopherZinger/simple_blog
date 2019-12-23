@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Update User Info{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'forms.css' %}">
+{% endblock %}
+
+{% block body %}
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="form-container">
+  <h3>Update User Info</h3>
+  <form class="form-form"  method="POST">
+    {% csrf_token %}
+    {{ user_info_form.as_p }}
+    <p style="font-size:.75em;">* required fields</p>
+    <input class="submit-btn" type="submit"  value="submit">
+  </form>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

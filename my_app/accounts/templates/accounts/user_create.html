@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'forms.css' %}">
+{% endblock %}
+{% block body %}
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="form-container">
+  <h3>Sign Up</h3>
+  <form class="form-form"  method="POST">
+    {% csrf_token %}
+    {{ user_info_form.as_p }}
+    {{ user_form.as_p }}
+    {% if request.GET.next %}
+      <input type="hidden" name="next" value="{{request.GET.next}}">
+    {% endif %}
+    <input class='submit-btn' type="submit"  value="submit">
+  </form>
+   <p class='form-link'>Already have a account? <a href="{% url 'accounts:login' %}">Log in</a></p>
+</div>
+
+{% endblock %}

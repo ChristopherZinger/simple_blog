@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}LogIn{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"  href="{% static 'forms.css' %}" />
+{% endblock %}
+{% block body %}
+
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="form-container">
+  <h3>LogIn</h3>
+  <form class="form-form" method="POST">
+    {% csrf_token %}
+    <label for="email">Email</label>
+    <input type="email" name="email" value="" placeholder="Email">
+    <br>
+    <label for="password">Password</label>
+    <input type="password" name="password" value="" placeholder="Password">
+    <br>
+    {% if request.GET.next %}
+      <input type="hidden" name="next" value="{{request.GET.next}}">
+    {% endif %}
+    <input class='submit-btn' type="submit" name="" value="Login" >
+  </form>
+   <p class="form-link"> <a href="{% url 'accounts:password_reset' %}">forgot password?</a> </p>
+</div>
+
+
+
+{% endblock %}

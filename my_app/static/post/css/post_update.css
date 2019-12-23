@@ -1,0 +1,103 @@
+.section{
+  padding: 0px;
+}
+.bg-gray{
+  padding: 15px;
+  background-color: rgb(245,245,245);
+  border-radius: 10px;
+}
+
+.hidden-select{
+  display: none;
+}
+
+textarea{
+  border: none;
+  position: relative;
+  max-width: auto;
+  overflow: auto;
+  background-color: rgb(245,245,245);
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.img-input{
+  width: 50%;
+}
+
+.content-cointainer{
+  /* border:1px solid rgb(240,240,240); */
+  width: 100%;
+  overflow: auto;
+}
+.display-edit-cointainer{
+  margin:15px 0px;
+  border:1px solid rgb(240,240,240);
+}
+
+button{
+  position: relative;
+  border: 0px solid white;
+}
+
+.sectionButtons{
+  opacity: 0;
+  transition-duration: 1s;
+}
+
+.sectionButtons:hover{
+  opacity: 1;
+}
+
+.display-edit-cointainer{
+  margin-bottom: 0px;
+}
+
+.edit-btns{
+  margin-bottom: 12px;
+}
+.eedit-btns button{
+  background-color: white;
+  border:1px solid black;
+}
+
+.last-add-button{
+  padding: 0px 0px;
+}
+.sectionButtons{
+  margin-bottom: 5px;
+  padding: 0px 0px;
+  border-top: 1px solid rgba(240,240,240,0);
+  border-bottom: 1px solid rgba(240,240,240,0);
+}
+.sectionButtons:hover{
+  padding: 15px 0px;
+  border-top: 1px solid rgba(240,240,240,1);
+  border-bottom: 1px solid rgba(240,240,240,1);
+}
+
+#save-post-div{
+  padding: 0px 0px;
+  margin-top: 20px;
+}
+#save-post-btn{
+  position: relative;
+  margin: 10px 0px;
+  overflow: auto;
+  width: 100%;
+  background-color: white;
+  border: 1px solid rgba(255,0,0,.75);
+  text-align: center;
+  font-size: 1em;
+  color: rgba(255,0,0,1);
+  font-weight: bold;
+  transition-duration: .5s;
+  left:50%;
+  transform: translateX(-50%);
+}
+
+#save-post-div:hover #save-post-btn{
+  background-color: rgba(255,0,0,.7);
+  color: white;
+  width: 80%;
+}

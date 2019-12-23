@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+{{ tag.title }}
+{% endblock %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'post/css/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'tags/css/tag_list.css' %}">
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+
+<div id="post-container">
+  <div class="section">
+    <h3>TAG: {{ tag.title|title }}</h3>
+  </div>
+
+{% for post in tag.post.all %}
+<div href="{% url 'post:post_detail' slug=post.slug %}" class="post-box post-highlight">
+  <a href="{% url 'post:post_detail' slug=post.slug %}">
+    <div class="post-description">
+      <div class="post-main-info">
+        <h4>{{ post.title }}</h4>
+          <p>{{ post.content_text|slice:":255"|striptags }}</p>
+
+      </div>
+      <div class="post-info">
+          <p class="post_pub_date">{{ post.publication_date }}</p>
+      </div>
+    </div>
+    <div class="post-img-div">
+      <img class="post-image" src="{{ post.images.first.image.url }}" alt="">
+    </div>
+
+  </a>
+
+  {% if user.is_staff %}
+      <a href="{% url 'post:post_update' post_id=post.id %}">Edit</a>
+      <a href="{% url 'post:post_delete' post_id=post.id %}" style="float:right; color:red">Delete Permanently</a>
+  {% endif %}
+</div>
+  {% endfor %}
+</div>
+
+
+
+
+</div>
+
+{% endblock %}

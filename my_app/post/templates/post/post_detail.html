@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'post/css/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'post/css/post_detail.css' %}">
+<link rel="stylesheet" href="{% static 'post/css/prism.css' %}">
+<script type="text/javascript" src="{% static 'post/js/prism.js' %}">
+</script>
+{% endblock %}
+
+{% block body %}
+
+<!-- HEAD TITLE -->
+<div class="section">
+  <h2>
+    {{post.title}}
+  </h2>
+
+  <div class="post-description">
+      <p class="post-subtitle">
+        {{ post.subtitle }}
+      </p>
+
+    <p class="pub-date">{{ post.publication_date }}</p>
+    <!-- TAGS -->
+    {% if post.tags.count > 0 %}
+    <ul class='tag-list'>
+      {% for tag in post.tags.all %}
+      <li><a href="{% url 'tags:tag_detail' slug=tag.slug %}">{{tag.title|title}}</a></li>
+      {% endfor %}
+    </ul>
+
+    {% endif %}
+  </div>
+</div>
+
+
+<div class="post-container section ">
+
+<!-- POST CONTENT -->
+{% if post.sections.all.count == 0 %}
+  <div class="section-text section language-python">
+    <p>This Post is empty. Sorry.</p>
+  </div>
+{% else %}
+  {% for section in post.sections.all|dictsort:"order" %}
+    {% if section.image %}
+    <!-- this section is a image -->
+    <div class="section-image section">
+      <img src="{{section.image.url}}" alt="here goes section image">
+    </div>
+    {% else %}
+    <!-- this sectino is a text -->
+    <div class="section-text section">
+      {{section.text|safe}}
+    </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+
+
+  <!-- SAVE COMMENT -->
+{% if user.is_authenticated %}
+<div class="add-comment">
+  <h5>Add Comment</h5>
+  <form method="POST">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <input type="submit" value="Add Comment" class="submit-btn">
+  </form>
+</div>
+{% else %}
+<div class="add-comment">
+  <p> <a style='color:blue' href="{% url 'accounts:login' %}?next={% url 'post:post_detail' slug=post.slug %}">Log In</a> to post a comment. Dont have account yet? <a style='color:blue' href="{% url 'accounts:user_create' %}?next={% url 'post:post_detail' slug=post.slug %}">Sign Up!</a></p>
+</div>
+{% endif %}
+
+  <!-- COMMENTS -->
+<div class="comments">
+  <h5>Comments:</h5>
+  {% for comment in comments %}
+      <h5>{{ comment.author }}</h5>
+      <p>{{ comment.text }}</p>
+  {% endfor %}
+</div>
+
+</div>
+
+{% endblock %}

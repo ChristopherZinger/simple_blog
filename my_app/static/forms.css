@@ -1,0 +1,42 @@
+
+
+.form-container{
+  margin-top:100px;
+  position: relative;
+  width: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.form-containter h3{
+  margin-left:20px;
+}
+
+.form-form input {
+  margin: 20px 0px;
+  border: none;
+  border-bottom: 1px solid rgb(240,240,240);
+}
+
+.form-form p{
+  margin: 0px;
+}
+
+.submit-btn{
+  position: relative;
+  left: 50%;
+  width: 50%;
+  transform: translate(-50%);
+  border: 0px solid white;
+}
+
+.form-link{
+  font-size: .80em;
+  position:relative;
+  display: block;
+  text-align: center;
+}
+
+.form-link a {
+  color:blue;
+}

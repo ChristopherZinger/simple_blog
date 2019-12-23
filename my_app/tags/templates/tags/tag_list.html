@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Tag List
+{% endblock %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'post/css/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'tags/css/tag_list.css' %}">
+{% endblock %}
+
+
+{% block body %}
+
+
+<div class="post-box">
+  <h4 style="margin-top:50px;">All Tags</h4>
+  {% for tag in tags %}
+    <p style="margin:3px 0px 3px 0px">
+      <a href="{% url 'tags:tag_detail' slug=tag.slug %}">{{ tag.title }}</a>
+      {% if user.is_staff %}
+      <a href="{% url 'tags:tag_delete' tag_id=tag.id %}">delete</a>
+      <a href="{% url 'tags:tag_update' tag_id=tag.id %}">update</a>
+      {% endif %}
+    </p>
+  {% endfor %}
+</div>
+{% if user.is_staff %}
+<br>
+<a href="{% url 'tags:tag_create' %}"> <strong style='color:red;'> Create Tag</strong></a>
+{% endif %}
+{% endblock %}

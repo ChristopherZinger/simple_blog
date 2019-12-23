@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Create New Post
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'forms.css' %}">
+<link rel="stylesheet" href="{% static 'post/css/create_post.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="form-container">
+  <h3>Create Post</h3>
+  <form class="form-form" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ post_form.as_p }}
+      <input class='submit-btn' type="submit" value="Next">
+  </form>
+
+</div>
+
+
+
+{% if post_form.errors %}
+<h4>Django Errors:</h4>
+    {% for field in post_form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+
+<p>
+</p>
+
+
+
+
+{% endblock %}
