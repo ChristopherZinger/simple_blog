@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 Tag Create
@@ -14,13 +15,13 @@ Tag Create
 
 {% if tag_form.errors %}
 <h4>Django Errors:</h4>
-    {% for field in tag_form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
+{% for field in tag_form %}
+{% for error in field.errors %}
+<div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endfor %}
 {% endif %}
 {{ request.session.messages }}
 
@@ -29,8 +30,4 @@ Tag Create
     {{ tag_form.as_p }}
     <input type="submit" value="Create Tag">
 </form>
-
-
-
-
 {% endblock %}
