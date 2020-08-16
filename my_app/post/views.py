@@ -1,5 +1,3 @@
-
-
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -18,19 +16,30 @@ from . import forms
 from tags.models import Tag
 import datetime
 
+# return conver image for post list
+def findCoverImg(post_list):
+    img_array = []
+    for post in post_list:
+        cover_img=None
+        for section in PostSection.objects.filter(post=post):
+            if section.image:
+                cover_img =  section.image
+                break
+        img_array.append( cover_img)
+    return img_array
 
 def post_list(request):
     # return conver image for post list
-    def findCoverImg(post_list):
-        img_array = []
-        for post in post_list:
-            cover_img=None
-            for section in PostSection.objects.filter(post=post):
-                if section.image:
-                    cover_img =  section.image
-                    break
-            img_array.append( cover_img)
-        return img_array
+    # def findCoverImg(post_list):
+    #     img_array = []
+    #     for post in post_list:
+    #         cover_img=None
+    #         for section in PostSection.objects.filter(post=post):
+    #             if section.image:
+    #                 cover_img =  section.image
+    #                 break
+    #         img_array.append( cover_img)
+    #     return img_array
 
     # check if user want to brawser justperticula topic
     # it will prowide 'topic' value in url
@@ -47,10 +56,11 @@ def post_list(request):
             context['post_list'] = zip(post_list, images)
             return render(request, "post/post_list.html", context,)
     # return all published posts
+
     post_list = Post.objects.filter(is_published=True,)
     images = findCoverImg(post_list) # cover images
     context['post_list'] = zip(post_list, images)
-    # print(context)
+
     return render(request, "post/post_list.html", context,)
 
 @login_required
@@ -98,7 +108,10 @@ def post_create(request):
 def post_list_all(request):
     context = {}
     post_list = Post.objects.all()
-    return render(request, 'post/post_list.html', {'post_list':post_list,})
+    images = findCoverImg(post_list) # cover images
+    context['post_list'] = zip(post_list, images)
+    print(context)
+    return render(request, 'post/post_list.html', context)
 
 
 @login_required
