@@ -18,6 +18,7 @@ urlpatterns = [
     path('post_list_all/', post_list_all, name='post_list_all'),
     path('<slug:slug>/', post_detail, name='post_detail'),
 
+    path('publish/<int:post_id>/', post_publish, name='post_publish'),
     path('post_republish/<int:post_id>/', post_republish, name='post_republish'),
     path('post_take_down/<int:post_id>/', post_take_down, name='post_take_down'),
  ]

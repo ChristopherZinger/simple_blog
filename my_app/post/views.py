@@ -50,6 +50,7 @@ def post_list(request):
     post_list = Post.objects.filter(is_published=True,)
     images = findCoverImg(post_list) # cover images
     context['post_list'] = zip(post_list, images)
+    # print(context)
     return render(request, "post/post_list.html", context,)
 
 @login_required
@@ -95,6 +96,7 @@ def post_create(request):
 
 @login_required
 def post_list_all(request):
+    context = {}
     post_list = Post.objects.all()
     return render(request, 'post/post_list.html', {'post_list':post_list,})
 

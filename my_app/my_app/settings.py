@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     #external apps
     'django_cleanup',
-    'captcha',
+    # 'captcha',
 
     #local apps
     'accounts',

@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% load static %}
@@ -6,7 +5,7 @@
 {% block title %}Chris Codes Python{% endblock %}
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'post/css/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'post/css/post_list.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -20,19 +19,14 @@
   <!-- IMAGE -->
   <div class="section">
     <div class="home-image ">
-      <img class="post-image" style='width:100%;'
-        {% if topic %}
-        src="{{ topic.image.url }}"
-        {% else %}
-        src="media/topic_images/OOP.jpg"
-        {% endif %}
-        alt="">
+      <img class="post-image" style='width:100%;' {% if topic %} src="{{ topic.image.url }}" {% else %}
+        src="media/topic_images/OOP.jpg" {% endif %} alt="">
     </div>
   </div>
   <!-- DESCRIPTION -->
 
-    {% if topic %}
-  <div class="topic-description" >
+  {% if topic %}
+  <div class="topic-description">
     <strong>
       {% if topic.description %}
       <p>
@@ -40,45 +34,47 @@
       </p>
 
       {% else %}
-        <p >This section does not have a description yet.</p>
+      <p>This section does not have a description yet.</p>
       {% endif %}
     </strong>
   </div>
-      {% endif %}
+  {% endif %}
 
 
 
 
 
-  <!-- LISTO OF POSTS -->
+  <!-- LIST OF POSTS -->
   {% for post, image in post_list %}
-    <div href="{% url 'post:post_detail' slug=post.slug %}" class="post-box post-highlight">
-      <a href="{% url 'post:post_detail' slug=post.slug %}">
-        <div class="post-description">
-          <div class="post-main-info">
-            <h4>{{ post.title }}</h4>
-              <p>{{ post.description|slice:":255"|striptags }}</p>
-          </div>
-          <div class="post-info">
-              <p class="post_pub_date">{{ post.publication_date }}</p>
-          </div>
+  <div href="{% url 'post:post_detail' slug=post.slug %}" class="post-box post-highlight">
+    <a href="{% url 'post:post_detail' slug=post.slug %}">
+      <div class="post-description">
+        <div class="post-main-info">
+          <h4>{{ post.title }}</h4>
+          <p>{{ post.description|slice:":255"|striptags }}</p>
         </div>
-        <div class="post-img-div">
-          <img class="post-image" src="{{ image.url }}" alt="">
+        <div class="post-info">
+          <p class="post_pub_date">{{ post.publication_date }}</p>
         </div>
-
-      </a>
-
-      {% if user.is_staff %}
-      <div style="position:relative; bottom: 0px; float:left;" >
-        <a style="display:inline-block;" href="{% url 'post:post_update' post_id=post.id %}">Edit</a> &nbsp; | &nbsp;
-        <a style="display:inline-block; color:red;" href="{% url 'post:post_delete' post_id=post.id %}" >Delete Permanently</a>
+      </div>
+      <div class="post-img-div">
+        <img class="post-image" src="{{ image.url }}" alt="">
       </div>
 
-      {% endif %}
+    </a>
+
+    {% if user.is_staff %}
+    <div style="position:relative; bottom: 0px; float:left;">
+      <a style="display:inline-block;" href="{% url 'post:post_update' post_id=post.id %}">Edit</a> &nbsp; | &nbsp;
+      <a style="display:inline-block; color:red;" href="{% url 'post:post_delete' post_id=post.id %}">Delete
+        Permanently</a>
     </div>
 
-  {% endfor %} <!--  end of post list loop -->
+    {% endif %}
+  </div>
+
+  {% endfor %}
+  <!--  end of post list loop -->
 </div>
 
 {% endblock %}

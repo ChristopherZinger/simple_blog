@@ -7,11 +7,9 @@ Create New Post
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'post/css/post_update.css' %}">
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous">
-</script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+  </script>
 
 
 <script type="text/javascript" src="{% static 'post/js/create_post.js' %}"></script>
@@ -23,27 +21,27 @@ Create New Post
 {% if post_form.errors %}
 
 <h3 style='color:red;'>Django Errors:</h3>
-    {% for field in post_form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
+{% for field in post_form %}
+{% for error in field.errors %}
+<div class="alert alert-danger">
+  <strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endfor %}
 {% endif %}
 
 {% if request.session.messages %}
 <ul>
-    {{ request.session.messages|safe }}
+  {{ request.session.messages|safe }}
 </ul>
 
 {% endif %}
 
 
 <form method="POST" enctype="multipart/form-data" id="postForm">
-    {% csrf_token %}
-    {{ post_form.as_p }}
-    <!-- <input id='textSubmitBtn' type="submit" value="Save Text" hidden> -->
+  {% csrf_token %}
+  {{ post_form.as_p }}
+  <!-- <input id='textSubmitBtn' type="submit" value="Save Text" hidden> -->
 </form>
 
 
@@ -51,92 +49,104 @@ Create New Post
 <!-- main sections menu -->
 <div id='contentContainer' class="content-cointainer">
   {% if post.sections.all.count == 0 %}
-    <div class="section-text section">
-      <p>This Post is empty. Sorry.</p>
-    </div>
+  <div class="section-text section">
+    <p>This Post is empty. Sorry.</p>
+  </div>
   {% else %}
-    {% for section in post.sections.all|dictsort:"order" %}
-      {% if section.image %}
-      <!-- this section is a image -->
-      <div id="{{section.id}}" class="section-image section">
-        <!-- add section buttons -->
-        <div class="sectionButtons">
-            <button type="button" onclick="addTextSection('{{section.id}}','<p>')" name="button">Add paragraph</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<h3>')" name="button">Add Headline</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<h4>')" name="button">Add Subtitle</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<q>')" name="button">Add Quote</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<ul>')" name="button">Add list</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<code>')" name="button">Python</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<img>')" name="button">Add Image</button>
-        </div>
-        <div class="bg-gray">
-          <img src="{{section.image.url}}" alt="here goes section image">
-          <!-- img edit field -->
-          <div id="{{section.id}}-image-containter" class="text-div">
-            <input type="file" class="img-input" form='postForm' name="{{section.id}}-image-input" value="" onchange="updateTextareaInput('id-user-textarea', 'id-textarea-input','<img>')">
-          </div>
-          <!-- img hidden fields -->
-          <div id="{{section.id}}-hidden-inputs-containter" form="postForm" class="text-div-hidden" hidden>
-            <input id="{{section.id}}-id-input" type="text" form="postForm" name="{{section.id}}-id-input" value="{{section.id}}">
-            <input id="{{section.id}}-tag-input" form="postForm" type="text" name="{{section.id}}-tag-input" value="{{section.tag}}">
-            <input id="{{section.id}}-order-input" form="postForm" class="input-order" type="text" name="{{section.id}}-order-input" value="{{section.order}}">
-            <input id="{{section.id}}-textarea-input" form="postForm" type="text" name="{{section.id}}-textarea-input" value="">
-          </div>
-          <!-- text move sectino around -->
-          <div class="edit-btns">
-            <button type="button" onclick="move('up','{{section.id}}')" name="button">Move Up</button>
-            <button type="button" onclick="move('down','{{section.id}}')" name="button">Move Down</button>
-            <button type="button" onclick="removeSection('{{section.id}}')" name="button">Remove</button>
-          </div>
-        </div>
+  {% for section in post.sections.all|dictsort:"order" %}
+  {% if section.image %}
+  <!-- this section is a image -->
+  <div id="{{section.id}}" class="section-image section">
+    <!-- add section buttons -->
+    <div class="sectionButtons">
+      <button type="button" onclick="addTextSection('{{section.id}}','<p>')" name="button">Add paragraph</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<h3>')" name="button">Add Headline</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<h4>')" name="button">Add Subtitle</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<q>')" name="button">Add Quote</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<ul>')" name="button">Add list</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<code>')" name="button">Python</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<img>')" name="button">Add Image</button>
+    </div>
+    <div class="bg-gray">
+      <img src="{{section.image.url}}" alt="here goes section image">
+      <!-- img edit field -->
+      <div id="{{section.id}}-image-containter" class="text-div">
+        <input type="file" class="img-input" form='postForm' name="{{section.id}}-image-input" value=""
+          onchange="updateTextareaInput('id-user-textarea', 'id-textarea-input','<img>')">
       </div>
-      {% else %}
-      <!-- this sectino is a text -->
-      <div id="{{section.id}}" class="section-text section"> <!--  dont change this id, it has to be a integer -->
-        <!-- add section buttons -->
-        <div class="sectionButtons">
-            <button type="button" onclick="addTextSection('{{section.id}}','<p>')" name="button">Add paragraph</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<h3>')" name="button">Add Headline</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<h4>')" name="button">Add Subtitle</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<q>')" name="button">Add Quote</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<ul>')" name="button">Add list</button>
-            <button type="button" onclick="addTextSection('{{section.id}}','<img>')" name="button">Add Image</button>
-        </div>
-        <div class="bg-gray">
-          <!-- select code type -->
-          <select id="{{section.id}}-select-code-type" class="{% if section.tag != '<code>' %}hidden-select{% endif %}" name="codeType" >
-            <option value="python" selected="selected">Python</option>
-            <option value="javascript">javascript</option>
-            <option value="html">HTML</option>
-          </select>
-          <div id="{{section.id}}-textarea-containter" class="text-div">
-            <textarea id="{{section.id}}-user-textarea" class='user-text-input' onchange="updateTextareaInput('{{section.id}}-user-textarea', '{{section.id}}-textarea-input','{{section.tag}}')" >{{section.text|safe}}</textarea>
-          </div>
-          <div id="{{section.id}}-hidden-inputs-containter" class="text-div-hidden" hidden>
-            <input id="{{section.id}}-id-input" form="postForm" type="text" name="{{section.id}}-id-input" value="{{section.id}}">
-            <input id="{{section.id}}-tag-input" form="postForm" type="text" name="{{section.id}}-tag-input" value="{{section.tag}}">
-            <input id="{{section.id}}-order-input" form="postForm" class="input-order"  type="text" name="{{section.id}}-order-input" value="{{section.order}}">
-            <input id="{{section.id}}-textarea-input" form="postForm" type="text" name="{{section.id}}-textarea-input" value="{{section.text}}">
-          </div>
-          <div class="edit-btns">
-            <button type="button" onclick="move('up','{{section.id}}')" name="button">Move Up</button>
-            <button type="button" onclick="move('down','{{section.id}}')" name="button">Move Down</button>
-            <button type="button" onclick="removeSection('{{section.id}}')" name="button">Remove</button>
-          </div>
-        </div>
+      <!-- img hidden fields -->
+      <div id="{{section.id}}-hidden-inputs-containter" form="postForm" class="text-div-hidden" hidden>
+        <input id="{{section.id}}-id-input" type="text" form="postForm" name="{{section.id}}-id-input"
+          value="{{section.id}}">
+        <input id="{{section.id}}-tag-input" form="postForm" type="text" name="{{section.id}}-tag-input"
+          value="{{section.tag}}">
+        <input id="{{section.id}}-order-input" form="postForm" class="input-order" type="text"
+          name="{{section.id}}-order-input" value="{{section.order}}">
+        <input id="{{section.id}}-textarea-input" form="postForm" type="text" name="{{section.id}}-textarea-input"
+          value="">
       </div>
-      {% endif %}
-    {% endfor %}
+      <!-- text move sectino around -->
+      <div class="edit-btns">
+        <button type="button" onclick="move('up','{{section.id}}')" name="button">Move Up</button>
+        <button type="button" onclick="move('down','{{section.id}}')" name="button">Move Down</button>
+        <button type="button" onclick="removeSection('{{section.id}}')" name="button">Remove</button>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <!-- this sectino is a text -->
+  <div id="{{section.id}}" class="section-text section">
+    <!--  dont change this id, it has to be a integer -->
+    <!-- add section buttons -->
+    <div class="sectionButtons">
+      <button type="button" onclick="addTextSection('{{section.id}}','<p>')" name="button">Add paragraph</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<h3>')" name="button">Add Headline</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<h4>')" name="button">Add Subtitle</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<q>')" name="button">Add Quote</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<ul>')" name="button">Add list</button>
+      <button type="button" onclick="addTextSection('{{section.id}}','<img>')" name="button">Add Image</button>
+    </div>
+    <div class="bg-gray">
+      <!-- select code type -->
+      <select id="{{section.id}}-select-code-type" class="{% if section.tag != '<code>' %}hidden-select{% endif %}"
+        name="codeType">
+        <option value="python" selected="selected">Python</option>
+        <option value="javascript">javascript</option>
+        <option value="html">HTML</option>
+      </select>
+      <div id="{{section.id}}-textarea-containter" class="text-div">
+        <textarea id="{{section.id}}-user-textarea" class='user-text-input'
+          onchange="updateTextareaInput('{{section.id}}-user-textarea', '{{section.id}}-textarea-input','{{section.tag}}')">{{section.text|safe}}</textarea>
+      </div>
+      <div id="{{section.id}}-hidden-inputs-containter" class="text-div-hidden" hidden>
+        <input id="{{section.id}}-id-input" form="postForm" type="text" name="{{section.id}}-id-input"
+          value="{{section.id}}">
+        <input id="{{section.id}}-tag-input" form="postForm" type="text" name="{{section.id}}-tag-input"
+          value="{{section.tag}}">
+        <input id="{{section.id}}-order-input" form="postForm" class="input-order" type="text"
+          name="{{section.id}}-order-input" value="{{section.order}}">
+        <input id="{{section.id}}-textarea-input" form="postForm" type="text" name="{{section.id}}-textarea-input"
+          value="{{section.text}}">
+      </div>
+      <div class="edit-btns">
+        <button type="button" onclick="move('up','{{section.id}}')" name="button">Move Up</button>
+        <button type="button" onclick="move('down','{{section.id}}')" name="button">Move Down</button>
+        <button type="button" onclick="removeSection('{{section.id}}')" name="button">Remove</button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
   {% endif %}
 </div>
 
 <div class="last-add-button">
-    <button type="button" onclick="addTextSection(null,'<p>')" name="button">Add paragraph</button>
-    <button type="button" onclick="addTextSection(null,'<h3>')" name="button">Add Headline</button>
-    <button type="button" onclick="addTextSection(null,'<h4>')" name="button">Add Subtitle</button>
-    <button type="button" onclick="addTextSection(null,'<q>')" name="button">Add Quote</button>
-    <button type="button" onclick="addTextSection(null,'<ul>')" name="button">Add list</button>
-    <button type="button" onclick="addTextSection(null,'<img>')" name="button">Add Image</button>
+  <button type="button" onclick="addTextSection(null,'<p>')" name="button">Add paragraph</button>
+  <button type="button" onclick="addTextSection(null,'<h3>')" name="button">Add Headline</button>
+  <button type="button" onclick="addTextSection(null,'<h4>')" name="button">Add Subtitle</button>
+  <button type="button" onclick="addTextSection(null,'<q>')" name="button">Add Quote</button>
+  <button type="button" onclick="addTextSection(null,'<ul>')" name="button">Add list</button>
+  <button type="button" onclick="addTextSection(null,'<img>')" name="button">Add Image</button>
 </div>
 <div id="save-post-div">
   <input id="save-post-btn" type="submit" name="" type="button" form='postForm' value="Save Post">
@@ -144,26 +154,28 @@ Create New Post
 </div>
 
 <template id="text-template">
-  <div id="primary-key" class="section-text section"> <!--  dont change this id, it has to be a integer -->
+  <div id="primary-key" class="section-text section">
+    <!--  dont change this id, it has to be a integer -->
     <!-- add section buttons -->
     <div class="sectionButtons">
-        <button type="button" onclick="addTextSection('primary-key','<p>')" name="button">Add paragraph</button>
-        <button type="button" onclick="addTextSection('primary-key','<h3>')" name="button">Add Headline</button>
-        <button type="button" onclick="addTextSection('primary-key','<h4>')" name="button">Add Subtitle</button>
-        <button type="button" onclick="addTextSection('primary-key','<q>')" name="button">Add Quote</button>
-        <button type="button" onclick="addTextSection('primary-key','<ul>')" name="button">Add list</button>
-        <button type="button" onclick="addTextSection('primary-key','<img>')" name="button">Add Image</button>
+      <button type="button" onclick="addTextSection('primary-key','<p>')" name="button">Add paragraph</button>
+      <button type="button" onclick="addTextSection('primary-key','<h3>')" name="button">Add Headline</button>
+      <button type="button" onclick="addTextSection('primary-key','<h4>')" name="button">Add Subtitle</button>
+      <button type="button" onclick="addTextSection('primary-key','<q>')" name="button">Add Quote</button>
+      <button type="button" onclick="addTextSection('primary-key','<ul>')" name="button">Add list</button>
+      <button type="button" onclick="addTextSection('primary-key','<img>')" name="button">Add Image</button>
     </div>
     <div class="bg-gray">
       <!-- select code type -->
-      <select id="primary-key-select-code-type" class="hidden-select" name="codeType" >
+      <select id="primary-key-select-code-type" class="hidden-select" name="codeType">
         <option value="python" selected="selected">Python</option>
         <option value="javascript">javascript</option>
         <option value="html">HTML</option>
       </select>
       <!-- text edit field -->
       <div id="id-textarea-containter" class="text-div">
-        <textarea id="id-user-textarea" class='user-text-input' onchange="updateTextareaInput('id-user-textarea', 'id-textarea-input','tag-type')" ></textarea>
+        <textarea id="id-user-textarea" class='user-text-input'
+          onchange="updateTextareaInput('id-user-textarea', 'id-textarea-input','tag-type')"></textarea>
       </div>
       <!-- text hidden fields -->
       <div id="id-hidden-inputs-containter" form="postForm" class="text-div-hidden" hidden>
@@ -184,20 +196,22 @@ Create New Post
 </template>
 
 <template id="img-template">
-  <div id="primary-key" class="section-text section"> <!--  dont change this id, it has to be a integer -->
+  <div id="primary-key" class="section-text section">
+    <!--  dont change this id, it has to be a integer -->
     <!-- add section buttons -->
     <div class="sectionButtons">
-        <button type="button" onclick="addTextSection('primary-key','<p>')" name="button">Add paragraph</button>
-        <button type="button" onclick="addTextSection('primary-key','<h3>')" name="button">Add Headline</button>
-        <button type="button" onclick="addTextSection('primary-key','<h4>')" name="button">Add Subtitle</button>
-        <button type="button" onclick="addTextSection('primary-key','<q>')" name="button">Add Quote</button>
-        <button type="button" onclick="addTextSection('primary-key','<ul>')" name="button">Add list</button>
-        <button type="button" onclick="addTextSection('primary-key','<img>')" name="button">Add Image</button>
+      <button type="button" onclick="addTextSection('primary-key','<p>')" name="button">Add paragraph</button>
+      <button type="button" onclick="addTextSection('primary-key','<h3>')" name="button">Add Headline</button>
+      <button type="button" onclick="addTextSection('primary-key','<h4>')" name="button">Add Subtitle</button>
+      <button type="button" onclick="addTextSection('primary-key','<q>')" name="button">Add Quote</button>
+      <button type="button" onclick="addTextSection('primary-key','<ul>')" name="button">Add list</button>
+      <button type="button" onclick="addTextSection('primary-key','<img>')" name="button">Add Image</button>
     </div>
     <div class="bg-gray">
       <!-- img edit field -->
       <div id="id-image-containter" class="text-div">
-        <input type="file" class="img-input" form='postForm' name="id-image-input" value="" onchange="updateTextareaInput('id-user-textarea', 'id-textarea-input','<img>')">
+        <input type="file" class="img-input" form='postForm' name="id-image-input" value=""
+          onchange="updateTextareaInput('id-user-textarea', 'id-textarea-input','<img>')">
       </div>
       <!-- img hidden fields -->
       <div id="id-hidden-inputs-containter" form="postForm" class="text-div-hidden" hidden>
@@ -223,27 +237,30 @@ Create New Post
 
 <h4>Tags:</h4>
 {% for tag in tags_included %}
-  <a href="{% url 'tags:remove_tag_from_post' post_id=post.id tag_id=tag.id %}">{{tag.title}}</a>
+<a href="{% url 'tags:remove_tag_from_post' post_id=post.id tag_id=tag.id %}">{{tag.title}}</a>
 {% endfor %}
 
 <h4>Add Tags:</h4>
 {% for tag in tags_excluded %}
-  <a href="{% url 'tags:add_tag_to_post' post_id=post.id tag_id=tag.id %}">{{ tag.title }}</a>
+<a href="{% url 'tags:add_tag_to_post' post_id=post.id tag_id=tag.id %}">{{ tag.title }}</a>
 {% endfor %}
 
 {% if post.publication_date == null  %}
-  <h3>Publication Status:</h3>
-  <a href="{% url 'post:post_publish' post_id=post.id %}"> <strong style='color:red;'>Publish This Post</strong> </a>
+<h3>Publication Status:</h3>
+<a href="{% url 'post:post_publish' post_id=post.id %}"> <strong style='color:red;'>Publish This Post</strong> </a>
 {% else %}
-  {% if post.is_published == True %}
-    <br>
-    <p>If you take  the post down form the page it will still be in the database. You will set mode.is_published = False .</p>
-    <a href="{% url 'post:post_take_down' post_id=post.id %}"> <strong style='color:red;'> Take down from the post list</strong></a>
-  {% else %}
-    <br>
-    <p>If you click republish the model.is_published will be set to True. But the Publication date will stay acording to the date it was published.</p>
-    <a href="{% url 'post:post_republish' post_id=post.id %}"> <strong style='color:red;'>Republish</strong></a>
+{% if post.is_published == True %}
+<br>
+<p>If you take the post down form the page it will still be in the database. You will set mode.is_published = False .
+</p>
+<a href="{% url 'post:post_take_down' post_id=post.id %}"> <strong style='color:red;'> Take down from the post
+    list</strong></a>
+{% else %}
+<br>
+<p>If you click republish the model.is_published will be set to True. But the Publication date will stay acording to the
+  date it was published.</p>
+<a href="{% url 'post:post_republish' post_id=post.id %}"> <strong style='color:red;'>Republish</strong></a>
 
-  {% endif %}
+{% endif %}
 {% endif %}
 {% endblock %}
